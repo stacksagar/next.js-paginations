@@ -1,16 +1,16 @@
-html,
-body {
-  padding: 0;
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-a {
-  color: inherit;
-  text-decoration: none;
-}
+@layer components {
+  .gridCar {
+    @apply col-span-12 sm:col-span-6 lg:col-span-4 2xl:col-span-3;
+  }
+  .btn {
+    @apply bg-gray-500 focus:ring px-4 py-1 rounded focus:outline-none text-white
+  }
 
-* {
-  box-sizing: border-box;
+  body {
+    background: #100e17;
+  }
 }

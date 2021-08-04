@@ -1,0 +1,42 @@
+#bgAnimation {
+  background: #333333 !important;
+  animation-name: bgChange !important;
+  animation-duration: 1.1s !important;
+  animation-iteration-count: infinite !important;
+  animation-direction: alternate-reverse !important;
+}
+
+.bgAnimation {
+  animation-name: bgChange;
+  animation-duration: 1.1s;
+  animation-iteration-count: infinite;
+  animation-direction: alternate-reverse;
+
+  -moz-animation-name: bgChange;
+  -moz-animation-duration: 1.1s;
+  -moz-animation-iteration-count: infinite;
+  -moz-animation-direction: alternate-reverse;
+
+  -webkit-animation-name: bgChange;
+  -webkit-animation-duration: 1.1s;
+  -webkit-animation-iteration-count: infinite;
+  -webkit-animation-direction: alternate-reverse;
+}
+
+@keyframes bgChange {
+  0% {
+    background: #111111;
+  }
+  25% {
+    background: #100e17;
+  }
+  50% {
+    background: #111111;
+  }
+  75% {
+    background: #100e17;
+  }
+  100% {
+    background: #111111;
+  }
+}
