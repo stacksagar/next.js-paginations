@@ -57,7 +57,7 @@ function P({ title, text }) {
 }
 
 export const getServerSideProps: GetServerSideProps = async (c) => {
-  const id = c.params?.id;
+  const id = c.params?.id as string;
 
   const resp = await database.collection('cars').doc(id).get();
   const car = await { _id: resp.id, ...resp.data() };
