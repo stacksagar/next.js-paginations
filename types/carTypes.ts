@@ -1,4 +1,5 @@
 export default interface carTypes {
+  _id: string;
   id: string | number;
   make: string | number;
   model: string | number;

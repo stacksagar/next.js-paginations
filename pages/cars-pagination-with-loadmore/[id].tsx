@@ -3,6 +3,7 @@ import { GetServerSideProps, GetStaticPaths, GetStaticProps } from 'next';
 import { useRouter } from 'next/router';
 import ChevronRight from '../../components/svgs/ChevronRight';
 import carTypes from '../../types/carTypes';
+import { database } from '../../firebase';
 
 export default function carById({
   car,
@@ -22,7 +23,7 @@ export default function carById({
         >
           /cars-pagination-with-loadmore <ChevronRight />
         </div>
-        <div>Serial-{id} </div>
+        <div>ID-{id} </div>
       </section>
       <section className="w-full xl:w-5/6 bg-gray-900 md:bg-gray-800 mx-auto p-10 text-white">
         <div className="relative w-full h-44 md:h-96 mx-auto rounded overflow-hidden">
@@ -56,9 +57,9 @@ function P({ title, text }) {
 }
 
 export const getServerSideProps: GetServerSideProps = async (c) => {
-  const id = c.params?.id;
-  const res = await fetch(`http://localhost:3000/api/cars/${id}`);
-  const car = await res.json();
+  const id: any = c.params?.id;
+  const resp = await database.collection('cars').doc(id).get();
+  const car = await { _id: resp.id, ...resp.data() };
 
   return {
     props: {

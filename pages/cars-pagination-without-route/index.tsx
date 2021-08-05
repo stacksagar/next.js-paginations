@@ -3,10 +3,10 @@ import Image from 'next/image';
 import carTypes from '../../types/carTypes';
 import Car from '../../components/Car';
 import { useRouter } from 'next/router';
+import { database } from '../../firebase';
 
 export default function Cars2() {
   const showPages = 6;
-  const router = useRouter();
   const [currentPage, setCurrentPage] = useState(1);
   const [min, setMin] = useState((currentPage - 1) * showPages);
   const [max, setMax] = useState(currentPage * showPages);
@@ -14,12 +14,16 @@ export default function Cars2() {
   const [totalPage, setTotalPage] = useState<any>();
 
   useEffect(() => {
-    (async () => {
-      const res = await fetch('http://localhost:3000/api/cars');
-      const cars = await res.json();
-      setCars(cars);
-      setTotalPage(Math.ceil(cars?.length / showPages));
-    })();
+    database
+      .collection('cars')
+      .get()
+      .then((snap) => snap.docs.map((doc) => ({ _id: doc.id, ...doc.data() })))
+      .then((cars: carTypes[]) => {
+        setCars(cars);
+        setTotalPage(Math.ceil(cars?.length / showPages));
+      })
+      .catch((error) => console.log('firebase fetching error ', error))
+      .finally(() => console.log('loaded'));
   }, []);
 
   useEffect(() => {
@@ -48,7 +52,7 @@ export default function Cars2() {
               itFor="cars-pagination-without-route"
               currentPage={currentPage}
               key={i}
-              serial={car?.id}
+              serial={i + 1}
               car={car}
             />
           ))}

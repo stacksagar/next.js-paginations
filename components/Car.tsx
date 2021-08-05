@@ -19,13 +19,13 @@ export default function Car({
 
   const viewHandler = () => {
     itFor == 'cars-pagination-with-route' &&
-      router.push(`/${itFor}/${currentPage}/${car?.id}`);
+      router.push(`/${itFor}/${currentPage}/${car?._id}`);
 
     itFor == 'cars-pagination-without-route' &&
-      router.push(`/${itFor}/${car?.id}`);
+      router.push(`/${itFor}/${car?._id}`);
 
     itFor == 'cars-pagination-with-loadmore' &&
-      router.push(`/${itFor}/${car?.id}`);
+      router.push(`/${itFor}/${car?._id}`);
   };
 
   return (
@@ -35,9 +35,15 @@ export default function Car({
         hidden && 'opacity-0 hidden lg:block '
       } h-52 rounded overflow-hidden bg-gray-800`}
     >
-      <div className="w-full h-40 bg-gray-900 relative">
+      <div className="w-full h-40 relative overflow-hidden">
+        <div className="w-full h-full absolute left-0 top-0 bg-gray-700 animate-ping z-0"></div>
         {!hidden && (
-          <Image layout="fill" src={car?.photoUrl} objectFit="cover" />
+          <Image
+            className="absolute z-20"
+            layout="fill"
+            src={car?.photoUrl}
+            objectFit="cover"
+          />
         )}
       </div>
 

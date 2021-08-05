@@ -1,28 +1,9 @@
-import { useEffect, useState } from 'react';
-import carTypes from '../../types/carTypes';
+import { useState } from 'react';
 import Car from '../../components/Car';
-import { useRouter } from 'next/router';
+import { database } from '../../firebase';
 
-export default function Cars3() {
-  const router = useRouter();
+export default function Cars3({ cars }) {
   const [showPages, setShowPages] = useState(6);
-  const [cars, setCars] = useState<carTypes[]>([]);
-
-  useEffect(() => {
-    (async () => {
-      const res = await fetch('http://localhost:3000/api/cars');
-      const cars = await res.json();
-      setCars(cars);
-    })();
-  }, []);
-
-  if (!cars?.length) {
-    return (
-      <div className="fixed w-full min-h-screen bg-black top-0 left-0 flex items-center justify-center">
-        <h1 className="text-3xl text-white">Loading...</h1>
-      </div>
-    );
-  }
 
   return (
     <main className="w-full text-center">
@@ -37,7 +18,7 @@ export default function Cars3() {
             <Car
               itFor="cars-pagination-with-loadmore"
               key={i}
-              serial={car?.id}
+              serial={i + 1}
               car={car}
             />
           ))}
@@ -54,3 +35,13 @@ export default function Cars3() {
     </main>
   );
 }
+
+export const getServerSideProps = async () => {
+  const resp = await database.collection('cars').get();
+  const cars = await resp.docs.map((doc) => ({ _id: doc.id, ...doc.data() }));
+  return {
+    props: {
+      cars: JSON.parse(JSON.stringify(cars)),
+    },
+  };
+};

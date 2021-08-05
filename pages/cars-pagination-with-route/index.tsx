@@ -4,6 +4,7 @@ import carTypes from '../../types/carTypes';
 import Car from '../../components/Car';
 import { GetStaticProps } from 'next';
 import { useRouter } from 'next/router';
+import { database } from '../../firebase';
 
 export default function Cars({
   serverCars,
@@ -40,7 +41,7 @@ export default function Cars({
               itFor="cars-pagination-with-route"
               currentPage={currentPage}
               key={i}
-              serial={car?.id}
+              serial={car.id}
               car={car}
             />
           ))}
@@ -104,8 +105,8 @@ export default function Cars({
 }
 
 export const getStaticProps: GetStaticProps = async (c) => {
-  const res = await fetch('http://localhost:3000/api/cars/');
-  const cars: carTypes[] = await res.json();
+  const resp = await database.collection('cars').get();
+  const cars = await resp.docs.map((doc) => ({ _id: doc.id, ...doc.data() }));
 
   const current: string | any = c.params?.currentPage || 1;
   const min = +(current - 1) * 6;

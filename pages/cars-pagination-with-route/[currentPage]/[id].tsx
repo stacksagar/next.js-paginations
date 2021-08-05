@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { GetStaticPaths, GetStaticProps } from 'next';
 import ChevronRight from '../../../components/svgs/ChevronRight';
 import { useRouter } from 'next/router';
+import { database } from '../../../firebase';
 
 export default function carById({
   car,
@@ -35,17 +36,17 @@ export default function carById({
       </section>
       <section className="w-full xl:w-5/6 bg-gray-900 md:bg-gray-800 mx-auto p-10 text-white">
         <div className="relative w-full h-44 md:h-96 mx-auto rounded overflow-hidden">
-          <Image layout="fill" objectFit="cover" src={car.photoUrl} />
+          <Image layout="fill" objectFit="cover" src={car?.photoUrl} />
         </div>
 
         <div className="w-full mx-auto text-lg">
-          <P title="make" text={car.make} />
-          <P title="model" text={car.model} />
-          <P title="year" text={car.year} />
-          <P title="kilometers" text={car.kilometers} />
-          <P title="fuelType" text={car.fuelType} />
-          <P title="price" text={car.price} />
-          <P title="details" text={car.details} />
+          <P title="make" text={car?.make} />
+          <P title="model" text={car?.model} />
+          <P title="year" text={car?.year} />
+          <P title="kilometers" text={car?.kilometers} />
+          <P title="fuelType" text={car?.fuelType} />
+          <P title="price" text={car?.price} />
+          <P title="details" text={car?.details} />
         </div>
       </section>
     </main>
@@ -65,9 +66,10 @@ function P({ title, text }) {
 }
 
 export const getStaticProps: GetStaticProps = async (c) => {
-  const id = c.params?.id;
-  const res = await fetch(`http://localhost:3000/api/cars/${id}`);
-  const car = await res.json();
+  const id: any = c.params?.id;
+
+  const resp = await database.collection('cars').doc(id).get();
+  const car = await { _id: resp.id, ...resp.data() };
 
   return {
     props: {
@@ -79,31 +81,31 @@ export const getStaticProps: GetStaticProps = async (c) => {
 };
 
 export const getStaticPaths: GetStaticPaths<{ currentPage: any; id: any }> =
-  () => {
+  async () => {
+    const resp = await database.collection('cars').get();
+    const cars = await resp.docs.map((doc) => ({
+      _id: doc.id,
+      ...doc.data(),
+    }));
+
+    let initialNumber = 1;
+    const paths = cars.map((car, i) => {
+      const n = i + 1;
+      if (n % 6 == 0) {
+        return {
+          params: {
+            currentPage: (initialNumber++).toLocaleString(),
+            id: car._id,
+          },
+        };
+      }
+      return {
+        params: { currentPage: initialNumber.toLocaleString(), id: car._id },
+      };
+    });
+
     return {
-      fallback: false,
-      paths: [
-        { params: { currentPage: '1', id: '1' } },
-        { params: { currentPage: '1', id: '2' } },
-        { params: { currentPage: '1', id: '3' } },
-        { params: { currentPage: '1', id: '4' } },
-        { params: { currentPage: '1', id: '5' } },
-        { params: { currentPage: '1', id: '6' } },
-        { params: { currentPage: '2', id: '7' } },
-        { params: { currentPage: '2', id: '8' } },
-        { params: { currentPage: '2', id: '9' } },
-        { params: { currentPage: '2', id: '10' } },
-        { params: { currentPage: '2', id: '11' } },
-        { params: { currentPage: '2', id: '12' } },
-        { params: { currentPage: '3', id: '13' } },
-        { params: { currentPage: '3', id: '14' } },
-        { params: { currentPage: '3', id: '15' } },
-        { params: { currentPage: '3', id: '16' } },
-        { params: { currentPage: '3', id: '17' } },
-        { params: { currentPage: '3', id: '18' } },
-        { params: { currentPage: '4', id: '19' } },
-        { params: { currentPage: '4', id: '20' } },
-        { params: { currentPage: '4', id: '21' } },
-      ],
+      fallback: true,
+      paths,
     };
   };
