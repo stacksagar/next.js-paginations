@@ -13,12 +13,12 @@ export default function carById({
   currentPage?: any;
   id?: any;
 }) {
-  const router = useRouter();
+  const Router = useRouter();
   return (
     <main className="md:p-10 md:pt-0">
       <section className="py-3 w-full flex items-center justify-center space-x-3 text-white">
         <div
-          onClick={() => router.push('/cars-pagination-without-route')}
+          onClick={() => Router.push('/cars-pagination-without-route')}
           className={`underline text-blue-300 cursor-pointer`}
         >
           /cars-pagination-without-route <ChevronRight />

@@ -30,7 +30,7 @@ export default function Cars({
     );
   }
 
-  const router = useRouter();
+  const Router = useRouter();
 
   return (
     <main className="w-full">
@@ -57,7 +57,7 @@ export default function Cars({
         <button
           disabled={currentPage <= 1}
           onClick={() =>
-            router.push(`/cars-pagination-with-route/${+currentPage - 1}`)
+            Router.push(`/cars-pagination-with-route/${+currentPage - 1}`)
           }
           className={`btn ${
             currentPage <= 1 && 'opacity-20 cursor-not-allowed'
@@ -73,7 +73,7 @@ export default function Cars({
             .map((_, i) => (
               <span
                 onClick={() =>
-                  router.push(`/cars-pagination-with-route/${i + 1}`)
+                  Router.push(`/cars-pagination-with-route/${i + 1}`)
                 }
                 key={i}
                 className={`text-xl cursor-pointer ${
@@ -91,7 +91,7 @@ export default function Cars({
         <button
           disabled={currentPage == totalPage}
           onClick={() =>
-            router.push(`/cars-pagination-with-route/${+currentPage + 1}`)
+            Router.push(`/cars-pagination-with-route/${+currentPage + 1}`)
           }
           className={`btn  ${
             currentPage == totalPage && 'opacity-20 cursor-not-allowed'

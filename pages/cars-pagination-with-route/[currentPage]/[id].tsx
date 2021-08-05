@@ -14,19 +14,19 @@ export default function carById({
   currentPage?: any;
   id?: any;
 }) {
-  const router = useRouter();
+  const Router = useRouter();
   return (
     <main className="md:p-10 md:pt-0">
       <section className="py-3 w-full flex items-center justify-center space-x-3 text-white">
         <div
-          onClick={() => router.push('/cars-pagination-with-route')}
+          onClick={() => Router.push('/cars-pagination-with-route')}
           className={`underline text-blue-300 cursor-pointer`}
         >
           /cars-pagination-with-route <ChevronRight />
         </div>
         <div
           onClick={() =>
-            router.push(`/cars-pagination-with-route/${currentPage}`)
+            Router.push(`/cars-pagination-with-route/${currentPage}`)
           }
           className={`underline text-blue-300 cursor-pointer`}
         >

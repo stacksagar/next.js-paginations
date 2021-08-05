@@ -39,6 +39,7 @@ export default function Car({
         <div className="w-full h-full absolute left-0 top-0 bg-gray-700 animate-ping z-0"></div>
         {!hidden && (
           <Image
+            alt=""
             className="absolute z-20"
             layout="fill"
             src={car?.photoUrl}
