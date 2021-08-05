@@ -1,8 +1,6 @@
-import { useEffect, useState } from 'react';
-import Image from 'next/image';
+import { useEffect, useState } from 'react'; 
 import carTypes from '../../types/carTypes';
 import Car from '../../components/Car';
-import { useRouter } from 'next/router';
 import { database } from '../../firebase';
 
 export default function Cars2() {

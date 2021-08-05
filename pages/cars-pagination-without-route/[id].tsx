@@ -5,7 +5,7 @@ import ChevronRight from '../../components/svgs/ChevronRight';
 import carTypes from '../../types/carTypes';
 import { database } from '../../firebase';
 
-export default function carById({
+export default function CarById({
   car,
   id,
 }: {
@@ -27,7 +27,7 @@ export default function carById({
       </section>
       <section className="w-full xl:w-5/6 bg-gray-900 md:bg-gray-800 mx-auto p-10 text-white">
         <div className="relative w-full h-44 md:h-96 mx-auto rounded overflow-hidden">
-          <Image layout="fill" objectFit="cover" src={car.photoUrl} />
+          <Image alt="" layout="fill" objectFit="cover" src={car.photoUrl} />
         </div>
 
         <div className="w-full mx-auto text-lg">

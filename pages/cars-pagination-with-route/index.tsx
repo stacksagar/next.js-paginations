@@ -1,5 +1,4 @@
-import { useEffect, useState } from 'react';
-import Image from 'next/image';
+import { useEffect, useState } from 'react'; 
 import carTypes from '../../types/carTypes';
 import Car from '../../components/Car';
 import { GetStaticProps } from 'next';
@@ -22,6 +21,8 @@ export default function Cars({
   currentPage: any;
   cars: carTypes[];
 }) {
+  const Router = useRouter();
+
   if (!cars?.length) {
     return (
       <div className="fixed w-full min-h-screen bg-black top-0 left-0 flex items-center justify-center">
@@ -29,8 +30,6 @@ export default function Cars({
       </div>
     );
   }
-
-  const Router = useRouter();
 
   return (
     <main className="w-full">
