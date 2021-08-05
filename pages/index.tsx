@@ -22,7 +22,7 @@ export default function Homepage() {
           <b className="ml-3 text-gray-200 text-xs font-semibold">
             Without Route Change
           </b>
-        </button>
+      </button>
 
         <button
           onClick={() => Router.push('/cars-pagination-with-loadmore')}

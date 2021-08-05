@@ -7,7 +7,7 @@ export default function Header() {
     <header className="relative bg-gray-800 w-full h-[50px] flex items-center justify-between px-5">
       <Link href="/" passHref>
         <span className="text-2xl text-blue-300 font-bold cursor-pointer border-b-2">
-          Go Home
+          Home
         </span>
       </Link>
 
